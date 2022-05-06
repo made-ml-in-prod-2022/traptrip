@@ -1,0 +1,4 @@
+_target_: preprocessing.data_transformer.DefaultTransformer
+features:
+  categorial: ["age", "sex", "fbs", "restecg", "exang", "slope", "ca", "thal"]
+  numerical: ["cp", "trestbps", "chol", "thalach", "oldpeak"]

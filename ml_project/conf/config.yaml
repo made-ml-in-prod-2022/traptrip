@@ -3,12 +3,13 @@ defaults:
   - model: logreg
   - metric: f1_score
   - dataset: heart
+  - preprocessing: default
   - override hydra/hydra_logging: colorlog
   - override hydra/job_logging: colorlog
 
 general:
   seed: 42
-  checkpoint_name: model.pkl
+  checkpoint_path: weights
 
 hydra:
   run:
