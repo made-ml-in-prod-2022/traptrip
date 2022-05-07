@@ -5,19 +5,18 @@ from pathlib import Path
 
 import hydra
 from hydra.utils import instantiate
-from omegaconf import DictConfig
 
 from utils.utils import load_obj
 from preprocessing import Dataset, split_data
-
+from entities import Config, register_configs
 
 logging.getLogger().setLevel(logging.INFO)
 logging.basicConfig(format="%(levelname)s:%(message)s", datefmt="%d:%m:%Y|%H:%M:%S")
+register_configs()
 
 
-@hydra.main(config_path="conf", config_name="config.yaml")
-def run(cfg: DictConfig) -> None:
-
+@hydra.main(config_path="conf", config_name="config")
+def run(cfg: Config) -> None:
     # Data preprocessing
     data, target = Dataset(cfg.dataset).load_dataset()
     transformer = instantiate(cfg.preprocessing)

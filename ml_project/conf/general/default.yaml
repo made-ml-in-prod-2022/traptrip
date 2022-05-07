@@ -1,0 +1,3 @@
+seed: 42
+checkpoint_path: weights
+project_dir: ${hydra:runtime.cwd}

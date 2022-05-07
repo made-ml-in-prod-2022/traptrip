@@ -4,13 +4,9 @@ defaults:
   - metric: f1_score
   - dataset: heart
   - preprocessing: default
+  - general: default
   - override hydra/hydra_logging: colorlog
   - override hydra/job_logging: colorlog
-
-general:
-  seed: 42
-  checkpoint_path: weights
-  project_dir: ${hydra:runtime.cwd}
 
 hydra:
   run:
