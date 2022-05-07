@@ -4,7 +4,7 @@ from typing import Any
 
 from hydra.core.config_store import ConfigStore
 
-from entities import (
+from ml_project.entities import (
     LogregConfig,
     F1scoreConfig,
     AccuracyConfig,
