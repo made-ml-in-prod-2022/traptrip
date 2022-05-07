@@ -30,8 +30,5 @@ class DefaultTransformer(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, data, target=None):
-        data.loc[:, self.numerical] = (
-            data.loc[:, self.numerical] - self.mean
-        ) / self.std
         data = self.transformer.transform(data)
         return data
