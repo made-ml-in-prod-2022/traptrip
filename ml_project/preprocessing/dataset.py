@@ -22,7 +22,6 @@ class Dataset:
         )
 
     def load_dataset(self) -> Tuple[pd.DataFrame, pd.Series]:
-        self.datapath = os.path.join(get_original_cwd(), self.datapath)
         if not os.path.exists(self.datapath):
             self.download_dataset()
         df = pd.read_csv(self.datapath)
