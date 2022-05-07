@@ -1,6 +1,6 @@
 import os
 import logging
-from typing import Tuple
+from typing import Tuple, Optional
 
 import pandas as pd
 
@@ -21,10 +21,11 @@ class Dataset:
             f"rm {self.download_path.split('/')[-1]}.zip"
         )
 
-    def load_dataset(self) -> Tuple[pd.DataFrame, pd.Series]:
+    def load_dataset(self) -> Tuple[pd.DataFrame, Optional[pd.Series]]:
         if not os.path.exists(self.datapath):
             logging.info(f"Dataset isn't downloaded. Downloading in {self.datapath}")
             self.download_dataset()
         df = pd.read_csv(self.datapath)
-        data, target = df.drop(self.target_column, axis=1), df[self.target_column]
+        data = df.drop(self.target_column, axis=1)
+        target = df[self.target_column] if self.target_column in df.columns else None
         return data, target

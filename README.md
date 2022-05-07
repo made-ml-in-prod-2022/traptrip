@@ -65,7 +65,6 @@ Project Organization
     │   │ 
     │   ├── preprocessing           <- Data preprocessing scripts
     │   │   ├── data_transformer.py 
-    │   │   ├── splitter.py
     │   │   └── dataset.py
     │   │
     │   ├── utils                   <- Helpful functions for pipeline

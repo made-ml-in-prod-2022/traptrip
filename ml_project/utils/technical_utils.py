@@ -1,5 +1,8 @@
 import importlib
-from typing import Any
+from pathlib import Path
+from typing import Any, Union
+
+from ml_project.entities import Config
 
 
 def load_obj(obj_path: str, default_obj_path: str = "") -> Any:
@@ -21,3 +24,23 @@ def load_obj(obj_path: str, default_obj_path: str = "") -> Any:
     if not hasattr(module_obj, obj_name):
         raise AttributeError(f"Object `{obj_name}` cannot be loaded from `{obj_path}`.")
     return getattr(module_obj, obj_name)
+
+
+def get_last_artifacts_path(cfg: Config) -> Union[Path, str]:
+    project_dir = Path(cfg.general.project_dir)
+    artifacts_dir = project_dir / cfg.general.artifacts_dir
+
+    folders = sorted(
+        list(
+            filter(
+                lambda p: "train_pipeline.log"
+                in list(map(lambda x: x.name, p.iterdir())),
+                artifacts_dir.iterdir(),
+            )
+        )
+    )
+    if folders:
+        last_artifacts_path = artifacts_dir / folders[-1]
+    else:
+        last_artifacts_path = ""
+    return last_artifacts_path
