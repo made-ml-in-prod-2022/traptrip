@@ -5,11 +5,10 @@ from pathlib import Path
 
 import hydra
 from hydra.utils import instantiate
-from sklearn.model_selection import train_test_split
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig
 
 from utils.utils import load_obj
-from preprocessing.dataset import Dataset
+from preprocessing import Dataset, split_data
 
 
 logging.getLogger().setLevel(logging.INFO)
@@ -18,18 +17,18 @@ logging.basicConfig(format="%(levelname)s:%(message)s", datefmt="%d:%m:%Y|%H:%M:
 
 @hydra.main(config_path="conf", config_name="config.yaml")
 def run(cfg: DictConfig) -> None:
-    print(OmegaConf.to_yaml(cfg))
 
+    # Data preprocessing
     data, target = Dataset(cfg.dataset).load_dataset()
     transformer = instantiate(cfg.preprocessing)
     data = transformer.fit_transform(data, target)
-    train_data, test_data, train_target, test_target = train_test_split(
-        data, target, test_size=cfg.dataset.test_size, random_state=cfg.general.seed
-    )
+    train_data, test_data, train_target, test_target = split_data(data, target, cfg)
 
+    # Train
     model = instantiate(cfg.model)
     model.fit(train_data, train_target)
 
+    # Validation
     metric = load_obj(cfg.metric._target_)
     score = metric(test_target, model.predict(test_data))
     logging.info(f"{metric.__name__}: {score:.6f}")
