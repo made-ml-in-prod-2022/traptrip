@@ -12,7 +12,7 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-### Train model
+### Train
 ```bash
 python ml_project/train_pipeline.py
 ```
@@ -43,6 +43,31 @@ You will get output like this
 [2022-05-07 13:47:10,896][root][INFO] - f1_score: 0.766667
 [2022-05-07 13:47:10,903][root][INFO] - Model saved to weights/model.pkl
 [2022-05-07 13:47:10,903][root][INFO] - Data transformer saved to weights/data_transformer.pkl
+```
+Results will be in config.general.artifacts_path/<current_datetime>
+
+### Inference
+```bash
+python ml_project/inference_pipeline.py \ 
+    'dataset.datapath=${dataset.data_dir}/test_data_file_name.csv' \ 
+    'inference.run_name=folder_with_artifacts'
+```
+Example:
+```bash
+python ml_project/inference_pipeline.py \ 
+    'dataset.datapath=${dataset.data_dir}/test.csv' \ 
+    'inference.run_name=2022-05-08_12-52-48'
+```
+Results will be in config.general.artifacts_path/<current_datetime>
+### Tests
+**Install test requirements**
+```bash
+pip install -r requirements-dev.txt
+```
+
+**Run**
+```bash
+pytest
 ```
 
 Project Organization
