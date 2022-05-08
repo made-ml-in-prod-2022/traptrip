@@ -132,3 +132,5 @@ dmypy.json
 *.zip
 .vscode
 .DS_Store
+mlruns/
+outputs/

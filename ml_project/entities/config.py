@@ -12,6 +12,7 @@ from ml_project.entities import (
     PreprocessingConfig,
     RfConfig,
     DefaultInferenceConfig,
+    MLflowLoggerConfig,
 )
 
 
@@ -30,6 +31,7 @@ class Config:
     preprocessing: Any = PreprocessingConfig()
     general: GeneralConfig = GeneralConfig()
     inference: Any = DefaultInferenceConfig()
+    logger: Any = None
 
 
 def register_configs() -> None:
@@ -43,3 +45,4 @@ def register_configs() -> None:
     cs.store(group="conf/dataset", name="heart", node=DatasetConfig)
     cs.store(group="conf/preprocessing", name="default_prep", node=PreprocessingConfig)
     cs.store(group="conf/inference", name="default_inference", node=GeneralConfig)
+    cs.store(group="conf/logger", name="mlflow_logger", node=MLflowLoggerConfig)

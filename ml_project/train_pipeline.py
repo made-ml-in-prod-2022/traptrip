@@ -11,6 +11,7 @@ from ml_project.stages.train_stage import (
     save_artifacts,
     train_model,
     get_score,
+    initialize_logger,
 )
 
 logging.getLogger().setLevel(logging.INFO)
@@ -19,6 +20,10 @@ register_configs()
 
 
 def train_pipeline(cfg: Config) -> None:
+
+    # Initialize artifacts logger
+    logger = initialize_logger(cfg)
+
     # Data preprocessing
     train_data, test_data, train_target, test_target = get_data(cfg)
 
@@ -29,7 +34,7 @@ def train_pipeline(cfg: Config) -> None:
     score = get_score(cfg, model, test_data, test_target)
 
     # Save artifacts
-    save_artifacts(cfg, model, score)
+    save_artifacts(cfg, model, score, logger)
 
 
 @hydra.main(config_path="conf", config_name="config")

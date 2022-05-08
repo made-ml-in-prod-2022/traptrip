@@ -41,7 +41,7 @@ def get_score(cfg: Config, model: Any, data: pd.DataFrame, target: pd.Series) ->
     return score
 
 
-def save_artifacts(cfg: Config, model: Any, score: float) -> None:
+def save_artifacts(cfg: Config, model: Any, score: float, logger: Any) -> None:
     Path(cfg.general.checkpoint_path).mkdir(exist_ok=True)
     model_path = os.path.join(cfg.general.checkpoint_path, "model.pkl")
     score_path = os.path.join(cfg.general.checkpoint_path, "score.txt")
@@ -51,3 +51,14 @@ def save_artifacts(cfg: Config, model: Any, score: float) -> None:
         fout.write(f"{load_obj(cfg.metric._target_).__name__}: {score}")
     logging.info(f"Model saved to {model_path}")
     logging.info(f"Score saved to {score_path}")
+
+    if logger:
+        logger.log_metric(load_obj(cfg.metric._target_).__name__, score)
+        logger.log_sklearn_model(model, cfg.general.checkpoint_path)
+        logger.log_params(cfg.model)
+        logger.end_run()
+
+
+def initialize_logger(cfg: Config):
+    logger = instantiate(cfg.logger) if "logger" in cfg else None
+    return logger
