@@ -10,7 +10,7 @@ from ml_project.preprocessing import Dataset
 from ml_project.utils.technical_utils import get_last_artifacts_path
 
 
-def get_checkpoint_path(cfg: Config):
+def get_checkpoint_path(cfg: Config) -> Path:
     checkpoint_path = (
         Path(cfg.general.project_dir)
         / cfg.general.artifacts_dir
@@ -30,15 +30,13 @@ def get_checkpoint_path(cfg: Config):
     return checkpoint_path
 
 
-def load_model(checkpoint_path):
+def load_model(checkpoint_path: Path) -> Any:
     model = load_pickle(checkpoint_path / "model.pkl")
-    data_transformer = load_pickle(checkpoint_path / "data_transformer.pkl")
-    return model, data_transformer
+    return model
 
 
-def get_data(cfg: Config, data_transformer: Any):
+def get_data(cfg: Config) -> pd.DataFrame:
     data, _ = Dataset(cfg).load_dataset()
-    data = data_transformer.fit_transform(data)
     return data
 
 

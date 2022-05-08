@@ -23,10 +23,10 @@ def inference_pipeline(cfg: Config):
     checkpoint_path = get_checkpoint_path(cfg)
 
     # Load the model
-    model, data_transformer = load_model(checkpoint_path)
+    model = load_model(checkpoint_path)
 
     # Data preprocessing
-    data = get_data(cfg.dataset, data_transformer)
+    data = get_data(cfg.dataset)
 
     # Predict & Save
     make_prediction(model, data, cfg.inference.prediction_path)

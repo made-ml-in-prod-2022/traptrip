@@ -20,7 +20,7 @@ register_configs()
 
 def train_pipeline(cfg: Config) -> None:
     # Data preprocessing
-    train_data, test_data, train_target, test_target, data_transformer = get_data(cfg)
+    train_data, test_data, train_target, test_target = get_data(cfg)
 
     # Train
     model = train_model(cfg, train_data, train_target)
@@ -29,7 +29,7 @@ def train_pipeline(cfg: Config) -> None:
     score = get_score(cfg, model, test_data, test_target)
 
     # Save artifacts
-    save_artifacts(cfg, model, data_transformer, score)
+    save_artifacts(cfg, model, score)
 
 
 @hydra.main(config_path="conf", config_name="config")
