@@ -14,6 +14,8 @@ def config():
             return_hydra_config=True,
             overrides=["general.project_dir=${hydra.runtime.cwd}"],
         )
+        if "logger" in cfg:
+            cfg.logger = None
     return cfg
 
 
