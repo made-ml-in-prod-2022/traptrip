@@ -1,3 +1,3 @@
 _target_: ml_project.preprocessing.data_transformer.DefaultTransformer
-categorial: ["age", "sex", "fbs", "restecg", "exang", "slope", "ca", "thal"]
-numerical: ["cp", "trestbps", "chol", "thalach", "oldpeak"]
+categorial: ["sex", "cp", "fbs", "restecg", "exang", "slope", "ca", "thal"]
+numerical: ["age", "trestbps", "chol", "thalach", "oldpeak"]

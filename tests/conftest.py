@@ -20,8 +20,8 @@ def config():
 
 
 @pytest.fixture
-def fake_dataset(config):
-    df = generate_dataset(10, config.dataset.datapath)
+def fake_dataset():
+    df = generate_dataset(10)
     return df
 
 
