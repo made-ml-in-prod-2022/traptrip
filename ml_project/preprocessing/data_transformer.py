@@ -8,8 +8,6 @@ from sklearn.compose import ColumnTransformer
 
 class DefaultTransformer(BaseEstimator, TransformerMixin):
     def __init__(self, numerical: List[Any], categorial: List[Any]):
-        self.numerical = numerical
-        self.categorial = categorial
         self.transformer = ColumnTransformer(
             transformers=[
                 ("scaler", StandardScaler(), list(numerical)),
@@ -20,12 +18,8 @@ class DefaultTransformer(BaseEstimator, TransformerMixin):
                 ),
             ]
         )
-        self.mean = None
-        self.std = None
 
     def fit(self, data: pd.DataFrame, target=None):
-        self.mean = data[self.numerical].mean(axis=0)
-        self.std = data[self.numerical].std(axis=0)
         self.transformer.fit(data, target)
         return self
 
