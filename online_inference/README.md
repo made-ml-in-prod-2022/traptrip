@@ -55,4 +55,5 @@ Project Organization
 ## Docker optimizations
 1. Use python:3.9-slim instead of python:3.9
 2. Add files useless for container to .dockerignore
-Final image size is 149.45 Mb (compressed).
+3. add --squash parameter while building (should enable experimental mode in docker config)
+Final image size is 148.66 Mb (compressed).
