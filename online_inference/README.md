@@ -53,5 +53,4 @@ Project Organization
 
 ## Docker optimizations
 1. Use python:3.9-slim instead of python:3.9
-2. Use `docker build --squash` command, to reduce number of layers
-3. Add files useless for container to .dockerignore
+2. Add files useless for container to .dockerignore
