@@ -55,4 +55,4 @@ Project Organization
 ## Docker optimizations
 1. Use python:3.9-slim instead of python:3.9
 2. Add files useless for container to .dockerignore
-Final image size is 76.43 Mb.
+Final image size is 76.43 Mb (compressed).
