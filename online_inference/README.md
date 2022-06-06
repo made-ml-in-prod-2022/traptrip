@@ -17,6 +17,7 @@ uvicorn transport.app:app --port $PORT
 ```bash
 source .env
 docker build -t pythondestroyer/heart_desease_server:v1 .
+docker pull pythondestroyer/heart_desease_server:v1
 docker run -p $PORT:$PORT pythondestroyer/heart_desease_server:v1
 ```
 
