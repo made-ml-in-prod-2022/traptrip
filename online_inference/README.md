@@ -16,8 +16,8 @@ uvicorn transport.app:app --port $PORT
 
 ```bash
 source .env
-docker build -t heart_desease_server:v1 .
-docker run -p $PORT:$PORT heart_desease_server:v1
+docker build -t pythondestroyer/heart_desease_server:v1 .
+docker run -p $PORT:$PORT pythondestroyer/heart_desease_server:v1
 ```
 
 **Pull from docker hub**
@@ -25,7 +25,7 @@ docker run -p $PORT:$PORT heart_desease_server:v1
 ```bash
 source .env
 docker pull pythondestroyer/heart_desease_server:v1
-docker run -p $PORT:$PORT heart_desease_server:v1
+docker run -p $PORT:$PORT pythondestroyer/heart_desease_server:v1
 ```
 
 ## Check server with requests
