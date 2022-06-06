@@ -1,0 +1,5 @@
+Docker
+.dockerignore
+.env-example
+README.md
+requirements-dev.txt

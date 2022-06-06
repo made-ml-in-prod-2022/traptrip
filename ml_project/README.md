@@ -72,39 +72,34 @@ pytest
 
 Project Organization
 ------------
-    ├── LICENSE
-    ├── README.md                   <- The top-level README for developers using this project.
+    ├── README.md                   <- The README for developers using this project.
     ├── data                        <- The data sets for modeling.
     ├── notebooks                   <- Jupyter notebooks
     ├── requirements.txt            <- The requirements file for reproducing the analysis environment, e.g.
     │                                   generated with `pip freeze > requirements.txt`
     ├── requirements-dev.txt        <- The requirements with packages for development & testing
     │
-    ├── ml_project                  <- Source code for use in this project.
-    │   ├── conf                    <- Configuration files
-    │   │   ├── dataset         
-    │   │   ├── preprocessing   
-    │   │   ├── metric         
-    │   │   ├── model           
-    │   │   └── config.yaml
-    │   │ 
-    │   ├── preprocessing           <- Data preprocessing scripts
-    │   │   ├── data_transformer.py 
-    │   │   └── dataset.py
-    │   │
-    │   ├── utils                   <- Helpful functions for pipeline
-    │   │   └── technical_utils.py
-    │   │
-    │   ├── entities                <- Dataclasses for config validation
-    │   │   ├── config.py
-    │   │   ├── dataset.py
-    │   │   ├── metrics.py
-    │   │   └── models.py
-    │   │
-    │   ├── train_pipeline.py       <- Train pipeline main script
-    │   └── inference_pipeline.py   <- Inference pipeline main script
+    ├── conf                        <- Configuration files
+    │   ├── dataset         
+    │   ├── preprocessing   
+    │   ├── metric         
+    │   ├── model           
+    │   └── config.yaml
+    │ 
+    ├── preprocessing               <- Data preprocessing scripts
+    │   ├── data_transformer.py 
+    │   └── dataset.py
     │
-    ├── tests                       <- Tests for pipelines and functions
-    ├── setup.cfg                   <- Store pytest configurations
+    ├── utils                       <- Helpful functions for pipeline
+    │   └── technical_utils.py
+    │
+    ├── entities                    <- Dataclasses for config validation
+    │   ├── config.py
+    │   ├── dataset.py
+    │   ├── metrics.py
+    │   └── models.py
+    │
+    ├── train_pipeline.py           <- Train pipeline main script
+    ├── inference_pipeline.py       <- Inference pipeline main script
     └── setup.py                    <- Makes project pip installable (pip install -e .) so src can be imported
 --------
