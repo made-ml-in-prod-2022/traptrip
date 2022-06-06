@@ -12,7 +12,6 @@ def test_data_transformer(config, fake_dataset):
 
     data = transformer.fit_transform(data, target)
 
-    print(data)
     assert np.allclose(
         data[:, : len(config.preprocessing.numerical)].mean(axis=0), 0, atol=1e-6
     ) and np.allclose(

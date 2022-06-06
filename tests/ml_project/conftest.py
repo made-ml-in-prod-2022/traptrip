@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import pytest
 from hydra import initialize, compose
 
@@ -8,7 +6,7 @@ from .generate_fake_dataset import generate_dataset
 
 @pytest.fixture
 def config():
-    with initialize(config_path="../ml_project/conf"):
+    with initialize(config_path="../../ml_project/conf"):
         cfg = compose(
             config_name="config",
             return_hydra_config=True,
