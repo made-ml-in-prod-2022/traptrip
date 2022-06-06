@@ -1,0 +1,11 @@
+_target_: sklearn.ensemble.RandomForestClassifier
+n_estimators: 500
+criterion: entropy # gini
+max_depth: 5
+min_samples_split: 2
+min_samples_leaf: 1
+bootstrap: true
+oob_score: false
+n_jobs: -1
+random_state: ${general.seed}
+class_weight: null # balanced balanced_subsample

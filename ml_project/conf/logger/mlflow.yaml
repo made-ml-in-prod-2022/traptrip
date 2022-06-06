@@ -1,0 +1,4 @@
+_target_: ml_project.logger.mlflow.MLflowLogger
+experiment_name: Classification
+run_name: ${general.run_name}
+tracking_uri: ${general.project_dir}/mlruns
