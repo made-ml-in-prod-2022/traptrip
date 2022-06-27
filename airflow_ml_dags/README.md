@@ -4,7 +4,7 @@ Dockerized pipelines for training, predicting
 
 # Run
 1. Create .env file with variables like in .env-example 
-2. Run `docker-compose up -d --build`
+2. Run `sh airflow_run.sh`
 
 
 # Stop 
