@@ -130,6 +130,7 @@ dmypy.json
 
 *.csv
 *.zip
+*.pkl
 .vscode
 .DS_Store
 mlruns/

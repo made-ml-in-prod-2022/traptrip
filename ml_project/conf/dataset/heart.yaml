@@ -1,6 +1,6 @@
 test_size: 0.2
 random_state: ${general.seed}
 download_path: cherngs/heart-disease-cleveland-uci
-data_dir: ${general.project_dir}/data
+data_dir: ${general.project_dir}/ml_project/data
 datapath: ${dataset.data_dir}/heart_cleveland_upload.csv
 target_column: condition
