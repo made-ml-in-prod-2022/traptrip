@@ -41,10 +41,10 @@ def request_predict():
     features = dataset.columns.tolist()
 
     health_response = requests.get(URL.replace("predict", "healthcheck"))
-    print(health_response.status_code, health_response.content)
+    logger.info(health_response.status_code, health_response.content)
 
     response = requests.post(URL, json={"data": data, "features": features})
-    print(f"Status: {response.status_code} ; Response data: {response.json()}")
+    logger.info(f"Status: {response.status_code} ; Response data: {response.json()}")
 
 
 if __name__ == "__main__":
