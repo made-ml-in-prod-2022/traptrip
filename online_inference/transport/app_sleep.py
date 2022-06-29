@@ -10,8 +10,8 @@ from .settings import CONFIG
 from .utils import load_pkl
 from .schemas import HeardDeseaseRequest, HeardDeseaseResponse
 
-START_SLEEP = 10
-TIME_TO_LIVE = 60
+START_SLEEP = 20
+TIME_TO_LIVE = 120
 START_TIME = None
 
 logger = logging.getLogger(__name__)
