@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: heart-desease-server
+  labels:
+    app: heart-desease-server
+spec:
+  containers:
+  - name: heart-desease-server
+    image: pythondestroyer/heart_desease_server:v2
+    ports:
+    - containerPort: 8000
