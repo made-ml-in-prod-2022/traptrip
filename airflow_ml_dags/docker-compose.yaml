@@ -1,0 +1,161 @@
+version: '3.7'
+# ====================================== AIRFLOW ENVIRONMENT VARIABLES =======================================
+x-environment:
+  &airflow_environment
+  - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+  - AIRFLOW__CORE__LOAD_DEFAULT_CONNECTIONS=True
+  - AIRFLOW__CORE__LOAD_EXAMPLES=False
+  - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql://airflow:airflow@postgres:5432/airflowdb
+  - AIRFLOW__CORE__STORE_DAG_CODE=True
+  - AIRFLOW__CORE__STORE_SERIALIZED_DAGS=True
+  - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=True
+  - AIRFLOW__CORE__FERNET_KEY=${FERNET_KEY}
+  - MLFLOW_TRACKING_URL=http://localhost:5001
+  - AIRFLOW__SMTP__SMTP_HOST=smtp.gmail.com
+  - AIRFLOW__SMTP__SMTP_STARTTLS=True
+  - AIRFLOW__SMTP__SMTP_SSL=False
+  - AIRFLOW__SMTP__SMTP_PORT=587
+  - AIRFLOW__SMTP__SMTP_USER=${SMTP_USER}
+  - AIRFLOW__SMTP__SMTP_PASSWORD=${SMTP_PASSWORD}
+
+x-airflow-image: &airflow_image apache/airflow:2.3.0-python3.8
+# ====================================== /AIRFLOW ENVIRONMENT VARIABLES ======================================
+services:
+
+  # https://stackoverflow.com/questions/46668233/multiple-databases-in-docker-and-docker-compose
+  postgres:
+    image: postgres:12-alpine
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES=airflowdb,mlflowdb
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker-postgresql-multiple-databases:/docker-entrypoint-initdb.d
+
+  init:
+    build:
+      context: images/airflow-docker
+      args:
+        AIRFLOW_BASE_IMAGE: *airflow_image
+    image: airflow-docker
+    depends_on:
+      - postgres
+    environment: *airflow_environment
+    entrypoint: /bin/bash
+    command: -c "airflow db init && airflow users create --username admin --password admin --firstname Gandalf --lastname Gray --role Admin --email gandalf@middle_earth.org"
+
+  webserver:
+    build:
+      context: images/airflow-docker
+      args:
+        AIRFLOW_BASE_IMAGE: *airflow_image
+    image: airflow-docker
+
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./logs:/opt/airflow/logs
+    environment: *airflow_environment
+    command: webserver
+
+  scheduler:
+    build:
+      context: images/airflow-docker
+      args:
+        AIRFLOW_BASE_IMAGE: *airflow_image
+    image: airflow-docker
+
+    restart: always
+    depends_on:
+      - postgres
+    volumes:
+      - ./logs:/opt/airflow/logs
+      - ./dags/:/opt/airflow/dags/
+      - ./data/:/opt/airflow/data/
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment: *airflow_environment
+    command: scheduler
+
+  ml_base:
+    build:
+      context: images/airflow-ml-base
+    image: airflow-ml-base
+    restart: "no"
+
+  test_dags:
+    build:
+      context: images/airflow-tests
+    image: airflow-test-dags
+    restart: "no"
+    entrypoint: pytest
+    volumes:
+      - ./dags:/testing/dags
+      - ./tests:/testing/tests
+      - ./setup.cfg:/testing/setup.cfg
+
+  predict:
+    build:
+      context: images/airflow-predict
+    image: airflow-predict
+    restart: "no"
+    depends_on:
+      - ml_base
+
+  download:
+    build:
+      context: images/airflow-download-data
+    image: airflow-download
+    restart: "no"
+    depends_on:
+      - ml_base
+
+  split_data:
+    build:
+      context: images/airflow-split-data
+    image: airflow-split-data
+    restart: "no"
+    depends_on:
+      - ml_base
+
+  preprocess:
+    build:
+      context: images/airflow-preprocess
+    image: airflow-preprocess
+    restart: "no"
+    depends_on:
+      - ml_base
+
+  train:
+    build:
+      context: images/airflow-train
+    image: airflow-train
+    restart: "no"
+    depends_on:
+      - ml_base
+
+  validate:
+    build:
+      context: images/airflow-validate
+    image: airflow-validate
+    restart: "no"
+    depends_on:
+      - ml_base
+
+  mlflow:
+    build:
+      context: images/mlflow
+    image: mlflow
+    depends_on:
+      - postgres
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./mlflow_logs:/mlruns
+    restart: always
+    entrypoint: /bin/bash
+    command: -c "mlflow server --host 0.0.0.0 --port 5001 --backend-store-uri postgresql://airflow:airflow@postgres:5432/mlflowdb --default-artifact-root /mlruns"
