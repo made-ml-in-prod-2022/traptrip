@@ -7,6 +7,8 @@ import mlflow
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 
+MODEL_PARAMS = {"C": 10, "solver": "sag"}
+
 
 @click.command("train")
 @click.option("--data-dir")
@@ -20,8 +22,7 @@ def main(data_dir: str, save_model_dir: str):
         save_model_dir = Path(save_model_dir)
         save_model_dir.mkdir(parents=True, exist_ok=True)
 
-        params = {"C": 10, "solver": "sag"}
-        model = LogisticRegression(**params)
+        model = LogisticRegression(**MODEL_PARAMS)
 
         train_data = pd.read_csv(data_dir / "train.csv")
         train_features, train_targets = train_data.drop("target", axis=1), train_data.target
