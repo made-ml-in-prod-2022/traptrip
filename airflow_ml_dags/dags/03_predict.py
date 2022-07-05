@@ -1,10 +1,7 @@
-import datetime
-
 from airflow import DAG
 from airflow.operators.docker_operator import DockerOperator
 from airflow.operators.dummy import DummyOperator
 from airflow.sensors.filesystem import FileSensor
-from airflow.sensors.external_task_sensor import ExternalTaskSensor
 from airflow.utils.dates import days_ago
 
 from settings import DEFAULT_AIRFLOW_ARGS, DATA_VOLUME, MLFLOW_PARAMS, ARTIFACTS_VOLUME
@@ -19,14 +16,6 @@ with DAG(
 ) as dag:
 
     start_task = DummyOperator(task_id="start-inference")
-
-    # train_stage_sensor = ExternalTaskSensor(
-    #     task_id="sensor-training",
-    #     external_dag_id="02_train_model",
-    #     check_existence=True,
-    #     timeout=120,
-    #     execution_delta=datetime.timedelta(days=1),
-    # )
 
     features_sensor = FileSensor(
         task_id="sensor-features",
@@ -50,7 +39,6 @@ with DAG(
 
     (
         start_task 
-        # >> [features_sensor, train_stage_sensor] 
         >> features_sensor
         >> prediction 
         >> end_task
