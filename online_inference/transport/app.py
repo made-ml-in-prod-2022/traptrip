@@ -19,7 +19,7 @@ app = FastAPI()
 async def load_model():
     global model
     if not os.path.exists(CONFIG.model_path):
-        raise FileNotFoundError("There is no model in this path: '{CONFIG.model_path}'")
+        raise FileNotFoundError(f"There is no model in this path: '{CONFIG.model_path}'")
     model = load_pkl(Path(CONFIG.model_path))
     logger.info("Model loaded!")
 

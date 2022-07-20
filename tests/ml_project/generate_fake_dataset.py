@@ -19,7 +19,10 @@ def generate_dataset(n_rows: int):
         "chol": [normal(247.35, 52) for _ in range(n_rows)],
         "thalach": [normal(149.6, 22.94) for _ in range(n_rows)],
         "oldpeak": [normal(1.06, 1.17) for _ in range(n_rows)],
-        "condition": fake.random_elements(elements=list(range(2)), length=n_rows),
+        "condition": list(
+            fake.random_elements(elements=list(range(2)), length=n_rows - 2)
+        )
+        + [0, 1],
     }
 
     fake_df = pd.DataFrame(fake_data)
