@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heart-desease-server-rolling-update
+  labels:
+    app: heart-desease-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: heart-desease-server
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  template:
+    metadata:
+      name: heart-desease-server-rolling-update
+      labels:
+        app: heart-desease-server
+    spec:
+      containers:
+        - image: pythondestroyer/heart_desease_server:v2
+          name: heart-desease-server
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Gi"
+              cpu: "1"
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
